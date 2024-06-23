@@ -1,17 +1,62 @@
 <?php
 
-$answers = [
-    'answer-1' => 'c',
-    'answer-2' => 'd',
-    'answer-3' => 'd',
-    'answer-4' => 'b',
-    'answer-5' => 'd',
+$questions = [
+    [
+        'question' => 'What are two Cabinet-level positions?',
+        'options' => [
+            'Secretary of Weather and Secretary of Energy',
+            'Secretary of Health and Human Services and Secretary of the Navy',
+            'Secretary of State and Secretary of Labor',
+            'Secretary of the Interior and Secretary of History',
+        ],
+        'answer' => 2,
+    ],
+    [
+        'question' => 'In what month do we vote for President?',
+        'options' => [
+            'January',
+            'October',
+            'February',
+            'November',
+        ],
+        'answer' => 3,
+    ],
+    [
+        'question' => 'Who was the first President?',
+        'options' => [
+            'South Dakota',
+            'Thomas Jefferson',
+            'Abraham Lincoln',
+            'George Washington',
+        ],
+        'answer' => 3,
+    ],
+    [
+        'question' => 'Name one state that borders Canada.',
+        'options' => [
+            'South Dakota',
+            'Maine',
+            'Rhode Island',
+            'Oregon',
+        ],
+        'answer' => 1,
+    ],
+    [
+        'question' => 'Why does the flag have 13 stripes?',
+        'options' => [
+            'because the stripes represent the members of the Second Continental Congress',
+            'because it was considered lucky to have 13 stripes on a flag',
+            'because the stripes represent the number of signatures on the U.S. Constitution',
+            'because the stripes represent the original colonies',
+        ],
+        'answer' => 3,
+    ],
 ];
 
-function result($key, $answers)
+function result($key, $questions): void
 {
-    if (isset($_POST[$key])) {
-        if ($_POST[$key] === $answers[$key]) {
+    if (isset($_POST["answer-$key"])) {
+        if ($_POST["answer-$key"] == $questions[$key]['answer']) {
             echo '<p class="mt-3 fw-bold text-success">Your answer is right.</p>';
         } else {
             echo '<p class="mt-3 fw-bold text-danger">Your answer is wrong.</p>';
@@ -22,11 +67,9 @@ function result($key, $answers)
 if (isset($_POST['submit'])) {
     $score = 0;
 
-    foreach ($answers as $key => $value) {
-        if (isset($_POST[$key])) {
-            if ($_POST[$key] === $value) {
-                $score++;
-            }
+    foreach ($questions as $key => $question) {
+        if ($_POST["answer-$key"] == $question['answer']) {
+            $score++;
         }
     }
 
@@ -62,168 +105,24 @@ include('navigation.php');
     <h1 class="mb-5">Citizenship Test</h1>
 
     <form action="index.php" method="post">
-        <p class="fw-bold">1. What are two Cabinet-level positions?</p>
+        <?php foreach ($questions as $key => $question): ?>
+            <p class="fw-bold"><?= $question['question'] ?></p>
 
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-1" id="answer-1-a" value="a">
-            <label class="form-check-label" for="answer-1-a">
-                Secretary of Weather and Secretary of Energy
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-1" id="answer-1-b" value="b">
-            <label class="form-check-label" for="answer-1-b">
-                Secretary of Health and Human Services and Secretary of the Navy
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-1" id="answer-1-c" value="c">
-            <label class="form-check-label" for="answer-1-c">
-                Secretary of State and Secretary of Labor
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-1" id="answer-1-d" value="d">
-            <label class="form-check-label" for="answer-1-d">
-                Secretary of the Interior and Secretary of History
-            </label>
-        </div>
+            <?php foreach ($question['options'] as $optionKey => $option): ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="answer-<?= $key ?>" id="answer-<?= "$key-$optionKey" ?>" value="<?= $optionKey ?>">
+                    <label class="form-check-label" for="answer-<?= "$key-$optionKey" ?>">
+                        <?= $option ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
 
-        <?php
-        result('answer-1', $answers);
-        ?>
+            <?php
+            result($key, $questions);
+            ?>
 
-        <hr>
-
-        <p class="fw-bold">2. In what month do we vote for President?</p>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-2" id="answer-2-a" value="a">
-            <label class="form-check-label" for="answer-2-a">
-                January
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-2" id="answer-2-b" value="b">
-            <label class="form-check-label" for="answer-2-b">
-                October
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-2" id="answer-2-c" value="c">
-            <label class="form-check-label" for="answer-2-c">
-                February
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-2" id="answer-2-d" value="d">
-            <label class="form-check-label" for="answer-2-d">
-                November
-            </label>
-        </div>
-
-        <?php
-        result('answer-2', $answers);
-        ?>
-
-        <hr>
-
-        <p class="fw-bold">3. Who was the first President?</p>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-3" id="answer-3-a" value="a">
-            <label class="form-check-label" for="answer-3-a">
-                John Adams
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-3" id="answer-3-b" value="b">
-            <label class="form-check-label" for="answer-3-b">
-                Thomas Jefferson
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-3" id="answer-3-c" value="c">
-            <label class="form-check-label" for="answer-3-c">
-                Abraham Lincoln
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-3" id="answer-3-d" value="d">
-            <label class="form-check-label" for="answer-3-d">
-                George Washington
-            </label>
-        </div>
-
-        <?php
-        result('answer-3', $answers);
-        ?>
-
-        <hr>
-
-        <p class="fw-bold">4. Name one state that borders Canada.</p>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-4" id="answer-4-a" value="a">
-            <label class="form-check-label" for="answer-4-a">
-                South Dakota
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-4" id="answer-4-b" value="b">
-            <label class="form-check-label" for="answer-4-b">
-                Maine
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-4" id="answer-4-c" value="c">
-            <label class="form-check-label" for="answer-4-c">
-                Rhode Island
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-4" id="answer-4-d" value="d">
-            <label class="form-check-label" for="answer-4-d">
-                Oregon
-            </label>
-        </div>
-
-        <?php
-        result('answer-4', $answers);
-        ?>
-
-        <hr>
-
-        <p class="fw-bold">5. Why does the flag have 13 stripes?</p>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-5" id="answer-5-a" value="a">
-            <label class="form-check-label" for="answer-5-a">
-                because the stripes represent the members of the Second Continental Congress
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-5" id="answer-5-b" value="b">
-            <label class="form-check-label" for="answer-5-b">
-                because it was considered lucky to have 13 stripes on a flag
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-5" id="answer-5-c" value="c">
-            <label class="form-check-label" for="answer-5-c">
-                because the stripes represent the number of signatures on the U.S. Constitution
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="answer-5" id="answer-5-d" value="d">
-            <label class="form-check-label" for="answer-5-d">
-                because the stripes represent the original colonies
-            </label>
-        </div>
-
-        <?php
-        result('answer-5', $answers);
-        ?>
+            <hr>
+        <?php endforeach; ?>
 
         <?php
         if (isset($_POST['submit'])) {
