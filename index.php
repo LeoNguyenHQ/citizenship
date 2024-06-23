@@ -19,7 +19,7 @@ function result($key, $answers)
     }
 }
 
-if (isset($_POST['answer-1'])) {
+if (isset($_POST['submit'])) {
     $score = 0;
 
     foreach ($answers as $key => $value) {
@@ -226,12 +226,12 @@ include('navigation.php');
         ?>
 
         <?php
-        if (isset($_POST['answer-1'])) {
+        if (isset($_POST['submit'])) {
             echo "<p>Your score is: $score. Your result is: $result.</p>";
         }
         ?>
 
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn btn-primary mt-3" name="submit" value="1">Submit</button>
     </form>
 </main>
 
